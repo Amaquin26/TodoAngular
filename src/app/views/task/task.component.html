@@ -20,18 +20,16 @@
 
     <section>
         <p-card>
-            <div class="flex items-center justify-between px-4">
-                <h2 class="text-lg font-semibold">Task Title</h2>
-                <!-- <p-checkbox [binary]="true" /> -->
-                <div class="flex items-center gap-2">
-                    <p-button icon="pi pi-pencil" size="small" [raised]="true" severity="secondary" />
-                    <p-button icon="pi pi-trash" size="small" [raised]="true" severity="danger" />
+            <div *ngFor="let subtask of todoSubtasks(); let last = last">
+                <div class="flex items-center justify-between px-4">
+                    <h2 class="text-lg font-semibold">{{ subtask.name }}</h2>
+                    <!-- <p-checkbox [binary]="true" /> -->
+                    <div class="flex items-center gap-2">
+                        <p-button icon="pi pi-pencil" size="small" [raised]="true" severity="secondary" />
+                        <p-button icon="pi pi-trash" size="small" [raised]="true" severity="danger" />
+                    </div>
                 </div>
-            </div>
-            <p-divider />
-            <div class="flex items-center justify-between px-4">
-                <h2 class="text-lg font-semibold">Task Title</h2>
-                <p-checkbox [binary]="true" />
+                <p-divider *ngIf="!last"/>
             </div>
         </p-card>
     </section>

@@ -1,10 +1,12 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { finalize, Subject, takeUntil } from 'rxjs';
+import { finalize, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { TodoTaskService } from '../../api-services/todo-task/todo-task.service';
 import { TodoTask } from '../../models/todo-task/todo-task';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { TodoSubtaskService } from '../../api-services/todo-subtask/todo-subtask.service';
+import { TodoSubtask } from '../../models/todo-subtask/todo-subtask';
 
 @Component({
   selector: 'app-task',
@@ -17,6 +19,7 @@ export class TaskComponent implements OnInit {
   constructor(
     private route: ActivatedRoute, 
     private todoTaskService:TodoTaskService,
+    private todoSubtaskService:TodoSubtaskService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private router: Router
@@ -25,6 +28,7 @@ export class TaskComponent implements OnInit {
   componentDestroyed$ = new Subject<void>();
   todoTaskId!: string;
   todoTask = signal<TodoTask | null>(null);
+  todoSubtasks = signal<TodoSubtask[]>([]);
 
   private getTaskIdFromRoute() {
     this.todoTaskId = this.route.snapshot.paramMap.get('id')!;
@@ -37,10 +41,23 @@ export class TaskComponent implements OnInit {
   }
 
   protected getTodoTaskById() {
-    this.todoTaskService.getTodoTaskById(Number(this.todoTaskId))
+  this.todoTaskService.getTodoTaskById(Number(this.todoTaskId))
+    .pipe(
+      takeUntil(this.componentDestroyed$),
+      tap(task => this.todoTask.set(task)),
+      switchMap(() => 
+        this.todoSubtaskService.getTodoSubtasksByTodoTaskId(Number(this.todoTaskId))
+      ),
+      tap(subtasks => this.todoSubtasks.set(subtasks))
+    )
+    .subscribe();
+}
+
+  protected getTodoSubtasks() {
+    this.todoSubtaskService.getTodoSubtasksByTodoTaskId(Number(this.todoTaskId))
     .pipe(takeUntil(this.componentDestroyed$))
-    .subscribe(task => {
-      this.todoTask.set(task);
+    .subscribe(subtasks => {
+      this.todoSubtasks.set(subtasks);
     });
   }
 
