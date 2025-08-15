@@ -41,17 +41,17 @@ export class TaskComponent implements OnInit {
   }
 
   protected getTodoTaskById() {
-  this.todoTaskService.getTodoTaskById(Number(this.todoTaskId))
-    .pipe(
-      takeUntil(this.componentDestroyed$),
-      tap(task => this.todoTask.set(task)),
-      switchMap(() => 
-        this.todoSubtaskService.getTodoSubtasksByTodoTaskId(Number(this.todoTaskId))
-      ),
-      tap(subtasks => this.todoSubtasks.set(subtasks))
-    )
-    .subscribe();
-}
+    this.todoTaskService.getTodoTaskById(Number(this.todoTaskId))
+      .pipe(
+        takeUntil(this.componentDestroyed$),
+        tap(task => this.todoTask.set(task)),
+        switchMap(() => 
+          this.todoSubtaskService.getTodoSubtasksByTodoTaskId(Number(this.todoTaskId))
+        ),
+        tap(subtasks => this.todoSubtasks.set(subtasks))
+      )
+      .subscribe();
+  }
 
   protected getTodoSubtasks() {
     this.todoSubtaskService.getTodoSubtasksByTodoTaskId(Number(this.todoTaskId))
