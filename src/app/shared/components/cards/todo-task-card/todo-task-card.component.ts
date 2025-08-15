@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { TodoTask } from '../../../../models/todo-task/todo-task';
 
 @Component({
   selector: 'app-todo-task-card',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   standalone: false
 })
 export class TodoTaskCardComponent {
-
+  @Input() todoTask!: TodoTask;
 }

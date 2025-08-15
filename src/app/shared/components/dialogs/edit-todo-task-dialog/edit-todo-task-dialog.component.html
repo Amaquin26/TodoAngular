@@ -1,7 +1,7 @@
 <div [class]="class">
-    <p-button (click)="showDialog()" icon="pi pi-plus" label="Todo Task" severity="success"/>
-    <p-dialog header="Add Todo Task" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
-        <form [formGroup]="addTodoTaskForm" (ngSubmit)="onSubmit()">
+    <p-button icon="pi pi-pencil" size="small" [raised]="true" severity="secondary" (click)="showDialog()"/>
+    <p-dialog header="Edit Todo Task" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+        <form [formGroup]="editTodoTaskForm" (ngSubmit)="onSubmit()">
             <div class="flex items-center gap-4 mb-4">
                 <label for="title" class="font-semibold w-24">Titlte</label>
                 <input pInputText id="title" class="flex-auto" formControlName="title" />
@@ -18,11 +18,13 @@
                     (click)="visible = false" 
                 />
                 <p-button 
-                    [disabled]="!addTodoTaskForm.valid"
+                    [disabled]="!editTodoTaskForm.valid"
                     type="submit" label="Save" 
                     severity="success"
                 />
             </div>
         </form>
     </p-dialog>
+
+    <p-toast />
 </div>

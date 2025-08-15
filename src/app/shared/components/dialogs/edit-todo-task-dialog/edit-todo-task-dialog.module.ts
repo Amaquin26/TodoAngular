@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { AddTodoTaskDialogComponent } from "./add-todo-task-dialog.component";
+import { EditTodoTaskDialogComponent } from "./edit-todo-task-dialog.component";
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -8,7 +8,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { ToastModule } from "primeng/toast";
 
 @NgModule({
-    declarations: [AddTodoTaskDialogComponent],
+    declarations: [EditTodoTaskDialogComponent],
     imports: [
         DialogModule,
         ButtonModule,
@@ -16,8 +16,8 @@ import { ToastModule } from "primeng/toast";
         ButtonModule,
         TextareaModule,
         ReactiveFormsModule,
-        ToastModule 
+        ToastModule
     ],
-    exports: [AddTodoTaskDialogComponent]
+    exports: [EditTodoTaskDialogComponent]
 })
-export class AddTodoTaskDialogModule {}
+export class EditTodoTaskDialogModule {}

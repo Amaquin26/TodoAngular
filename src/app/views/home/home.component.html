@@ -2,9 +2,12 @@
 <p class="opacity-75">Here are your tasks for today.</p>
 
 <section>
-    <div class="mt-4 flex flex-col gap-4">
-        <app-todo-task-card></app-todo-task-card>
-        <app-todo-task-card></app-todo-task-card>
+    <div class="mt-4 flex flex-col gap-4" *ngFor="let todoTask of todoTasks()">
+        <app-todo-task-card 
+            class="cursor-pointer"
+            [routerLink]=" `/task/${todoTask.id}`" 
+            [todoTask]="todoTask"
+        />
     </div>
 
     <app-add-todo-task-dialog class="fixed right-0 bottom-0 p-4"/>
