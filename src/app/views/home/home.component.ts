@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { TodoTaskService } from '../../api-services/todo-task/todo-task.service';
-import { Subject, takeUntil } from 'rxjs';
+import { finalize, Subject, takeUntil } from 'rxjs';
 import { TodoTask } from '../../models/todo-task/todo-task';
 
 @Component({
@@ -14,10 +14,16 @@ export class HomeComponent implements OnInit{
 
   private componentDestroyed$ = new Subject<void>();
   protected todoTasks = signal<TodoTask[]>([]);
+  protected loadingTodoTasks = signal(true);
 
   private loadTodoTasks() {
+    this.loadingTodoTasks.set(true)
+
     this.todoTaskService.getTodoTasks()
-    .pipe(takeUntil(this.componentDestroyed$))
+    .pipe(
+      takeUntil(this.componentDestroyed$),
+      finalize(() => this.loadingTodoTasks.set(false))
+    )
     .subscribe(tasks => {
       this.todoTasks.set(tasks);
     });

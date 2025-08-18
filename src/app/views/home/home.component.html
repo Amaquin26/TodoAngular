@@ -10,5 +10,10 @@
         />
     </div>
 
+    <div class="mt-4 flex flex-col gap-4" *ngIf="loadingTodoTasks()">
+        <p-skeleton height="6rem"/>
+        <p-skeleton height="6rem"/>
+    </div>
+
     <app-add-todo-task-dialog class="fixed right-0 bottom-0 p-4"/>
 </section>

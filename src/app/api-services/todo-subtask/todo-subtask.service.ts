@@ -13,4 +13,11 @@ export class TodoSubtaskService {
   getTodoSubtasksByTodoTaskId(todoTaskId: number): Observable<TodoSubtask[]> {
     return this.http.get<TodoSubtask[]>(`${environment.todoApiBaseUrl}/TodoSubtask/task/${todoTaskId}`);
   }
+
+  addTodoSubtasksByTodoTaskId(addTodoSubtask: {
+    name: string,
+    todoSubtask: number
+  }): Observable<number> {
+    return this.http.post<number>(`${environment.todoApiBaseUrl}/TodoSubtask`, addTodoSubtask);
+  }
 }

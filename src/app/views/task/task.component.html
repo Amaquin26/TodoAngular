@@ -1,5 +1,5 @@
 <div class="max-w-5xl m-auto">
-    <p-card *ngIf="todoTask()">
+    <p-card *ngIf="!loadingTodoTask()">
         <div class="flex items-center justify-between">
             <p class="text-xl font-bold">{{ todoTask()?.title }}</p>
             <div class="flex items-center gap-2">
@@ -11,7 +11,7 @@
             {{ todoTask()?.description }}
         </p>
     </p-card>
-    <p-skeleton class="w-full" height="6rem" *ngIf="!todoTask()"/>
+    <p-skeleton class="w-full" height="6rem" *ngIf="loadingTodoTask()"/>
 
     <div class="flex items-center justify-between my-4">
         <p class="opacity-75">Subtasks</p>
@@ -19,7 +19,8 @@
     </div>
 
     <section>
-        <p-card>
+        <p class="opacity-75 text-center text-sm" *ngIf="!loadingTodoSubtasks() && !todoSubtasks().length">No Subtasks </p>
+        <p-card *ngIf="!loadingTodoSubtasks() && todoSubtasks().length">
             <div *ngFor="let subtask of todoSubtasks(); let last = last">
                 <div class="flex items-center justify-between px-4">
                     <h2 class="text-lg font-semibold">{{ subtask.name }}</h2>
@@ -37,4 +38,10 @@
     <p-toast />
     <p-confirmdialog />
 </div>
+<app-add-todo-subtask-dialog 
+    class="fixed right-0 bottom-0 p-4" 
+    *ngIf="todoTask()"
+    [todoTaskId]="todoTask()!.id"
+    (addTodoTaskEvent)="getTodoSubtasks()"    
+/>
 

@@ -5,6 +5,7 @@ import { AddTodoTaskDialogModule } from "../../shared/components/dialogs/add-tod
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { Toast } from 'primeng/toast';
+import { SkeletonModule } from "primeng/skeleton";
 
 @NgModule({
     declarations: [HomeComponent],
@@ -14,7 +15,8 @@ import { Toast } from 'primeng/toast';
         AddTodoTaskDialogModule,
         CommonModule,
         RouterLink,
-        Toast
+        Toast,
+        SkeletonModule
     ],
     exports: []
 })

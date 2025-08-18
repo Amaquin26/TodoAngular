@@ -30,35 +30,53 @@ export class TaskComponent implements OnInit {
   todoTask = signal<TodoTask | null>(null);
   todoSubtasks = signal<TodoSubtask[]>([]);
 
+  protected loadingTodoTask = signal(true);
+  protected loadingTodoSubtasks = signal(true);
+
   private getTaskIdFromRoute() {
     this.todoTaskId = this.route.snapshot.paramMap.get('id')!;
 
     this.route.paramMap
-    .pipe(takeUntil(this.componentDestroyed$))
+    .pipe(
+      takeUntil(this.componentDestroyed$)
+    )
     .subscribe(params => {
       this.todoTaskId = params.get('id')!;
     });
   }
 
   protected getTodoTaskById() {
-    this.todoTaskService.getTodoTaskById(Number(this.todoTaskId))
-      .pipe(
-        takeUntil(this.componentDestroyed$),
-        tap(task => this.todoTask.set(task)),
-        switchMap(() => 
-          this.todoSubtaskService.getTodoSubtasksByTodoTaskId(Number(this.todoTaskId))
-        ),
-        tap(subtasks => this.todoSubtasks.set(subtasks))
-      )
-      .subscribe();
-  }
+    this.loadingTodoTask.set(true);
 
-  protected getTodoSubtasks() {
+    this.todoTaskService.getTodoTaskById(Number(this.todoTaskId))
+      .pipe(takeUntil(this.componentDestroyed$))
+      .subscribe({
+        next: (task) => {
+          this.todoTask.set(task);
+          this.loadingTodoTask.set(false);
+
+          this.getTodoSubtasks(false);
+        },
+        error: () => {
+          this.loadingTodoTask.set(false);
+        }
+      });
+    }
+
+  protected getTodoSubtasks(silentLoading: boolean = true) {
+    this.loadingTodoSubtasks.set(!silentLoading);
+
     this.todoSubtaskService.getTodoSubtasksByTodoTaskId(Number(this.todoTaskId))
-    .pipe(takeUntil(this.componentDestroyed$))
-    .subscribe(subtasks => {
-      this.todoSubtasks.set(subtasks);
-    });
+      .pipe(takeUntil(this.componentDestroyed$))
+      .subscribe({
+        next: (subtasks) => {
+          this.todoSubtasks.set(subtasks);
+          this.loadingTodoSubtasks.set(false);
+        },
+        error: () => {
+          this.loadingTodoSubtasks.set(false);
+        }
+      });
   }
 
   showToast(

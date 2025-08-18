@@ -9,6 +9,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { EditTodoTaskDialogModule } from "../../shared/components/dialogs/edit-todo-task-dialog/edit-todo-task-dialog.module";
 import { SkeletonModule } from 'primeng/skeleton';
 import { CommonModule } from "@angular/common";
+import { AddTodoSubtaskDialogModule } from "../../shared/components/dialogs/add-todo-subtask-dialog/add-todo-subtask-dialog.module";
 @NgModule({
     declarations: [
         TaskComponent
@@ -22,7 +23,8 @@ import { CommonModule } from "@angular/common";
     ConfirmDialog,
     EditTodoTaskDialogModule,
     SkeletonModule,
-    CommonModule
+    CommonModule,
+    AddTodoSubtaskDialogModule
 ],
     exports: []
 })
