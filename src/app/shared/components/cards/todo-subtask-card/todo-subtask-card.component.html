@@ -1,0 +1,16 @@
+<div class="flex items-center justify-between px-4">
+    <label class="flex items-center justify-between w-full cursor-pointer">
+        <h2 class="text-lg font-semibold" [appCheckedTodoSubtask]="_todoSubtask.isChecked">{{ _todoSubtask.name }}</h2>
+        <p-checkbox [binary]="true" [(ngModel)]="_todoSubtask.isChecked" (onChange)="toggleTodoSubtaskCheckStatus()" *ngIf="!isEditMode"/>
+    </label>
+    <div class="flex items-center gap-2" *ngIf="isEditMode">
+        <app-edit-todo-subtask-dialog 
+            [todoSubtask]="_todoSubtask"
+            (editTodoTaskEvent)="onUpdateTodoSubtask($event)"
+        />
+        <p-button icon="pi pi-trash" size="small" [raised]="true" severity="danger" (onClick)="showDeleteConfirmation($event)"/>
+    </div>
+</div>
+
+<p-toast />
+<p-confirmdialog />

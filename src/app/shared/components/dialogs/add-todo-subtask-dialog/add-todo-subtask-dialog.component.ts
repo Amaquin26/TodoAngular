@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { TodoSubtaskService } from '../../../../api-services/todo-subtask/todo-subtask.service';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
@@ -35,7 +35,10 @@ export class AddTodoSubtaskDialogComponent implements OnInit {
       return;
     }
 
-    this.todoSubtaskService.addTodoSubtasksByTodoTaskId(this.addTodoSubtaskForm.value)
+    this.todoSubtaskService.addTodoSubtasksByTodoTaskId({
+      todoTaskId: this.todoTaskId,
+      ...this.addTodoSubtaskForm.value
+    })
       .pipe(takeUntil(this.componentDestroyed$))
       .subscribe({
         next: (_) => {
@@ -54,7 +57,6 @@ export class AddTodoSubtaskDialogComponent implements OnInit {
 
   ngOnInit() {
     this.addTodoSubtaskForm = new FormGroup({
-      todoTaskId: new FormControl(this.todoTaskId),
       name: new FormControl('', [Validators.required]),
     });
   }

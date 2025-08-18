@@ -27,11 +27,13 @@ export class TaskComponent implements OnInit {
 
   componentDestroyed$ = new Subject<void>();
   todoTaskId!: string;
+
   todoTask = signal<TodoTask | null>(null);
   todoSubtasks = signal<TodoSubtask[]>([]);
+  loadingTodoTask = signal(true);
+  loadingTodoSubtasks = signal(true);
 
-  protected loadingTodoTask = signal(true);
-  protected loadingTodoSubtasks = signal(true);
+  isEditMode = false;
 
   private getTaskIdFromRoute() {
     this.todoTaskId = this.route.snapshot.paramMap.get('id')!;
@@ -45,7 +47,7 @@ export class TaskComponent implements OnInit {
     });
   }
 
-  protected getTodoTaskById() {
+  getTodoTaskById() {
     this.loadingTodoTask.set(true);
 
     this.todoTaskService.getTodoTaskById(Number(this.todoTaskId))
@@ -63,7 +65,7 @@ export class TaskComponent implements OnInit {
       });
     }
 
-  protected getTodoSubtasks(silentLoading: boolean = true) {
+  getTodoSubtasks(silentLoading: boolean = true) {
     this.loadingTodoSubtasks.set(!silentLoading);
 
     this.todoSubtaskService.getTodoSubtasksByTodoTaskId(Number(this.todoTaskId))
@@ -77,6 +79,10 @@ export class TaskComponent implements OnInit {
           this.loadingTodoSubtasks.set(false);
         }
       });
+  }
+
+  toggleEditMode(){
+    this.isEditMode = !this.isEditMode;
   }
 
   showToast(

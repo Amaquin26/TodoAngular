@@ -5,10 +5,12 @@ import { TaskComponent } from './views/task/task.component';
 export const routes: Routes = [
     {
         path: '',
-        component: HomeComponent
+        component: HomeComponent,
+        data: { breadcrumb: 'Home' }
     },
     {
         path: 'task/:id',
-        component: TaskComponent
+        component: TaskComponent,
+        data: { breadcrumb: 'Task Viewing' }
     }
 ];

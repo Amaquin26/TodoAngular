@@ -1,0 +1,13 @@
+<nav class="opacity-75">
+  <ng-container *ngFor="let breadcrumb of breadcrumbs; let last = last">
+    <ng-container *ngIf="!last">
+      <i [class]="`${breadcrumb.icon} mx-1`" style="font-size: .75rem" *ngIf="breadcrumb.icon"></i>
+      <a [routerLink]="breadcrumb.url" class="cursor-pointer">{{ breadcrumb.label }}</a> 
+      <i class="pi pi-chevron-right mx-1" style="font-size: .75rem"></i>
+    </ng-container>
+    <ng-container *ngIf="last">
+      <i [class]="breadcrumb.icon" style="font-size: 1rem" *ngIf="breadcrumb.icon"></i>
+      {{ breadcrumb.label }}
+    </ng-container>
+  </ng-container>
+</nav>
